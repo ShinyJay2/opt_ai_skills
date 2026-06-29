@@ -192,7 +192,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/
 
 학회원은 따로 설정할 것이 없습니다.
 
-Discord 리마인더도 fallback으로 남겨두었습니다.
+Discord 리마인더는 fallback으로 남겨두었고, 자동 실행은 꺼져 있습니다. 필요할 때 Actions에서 수동 실행합니다.
 
 ---
 

@@ -1,9 +1,7 @@
 name: Biweekly OPT-AI report reminder
 
 on:
-  schedule:
-    # Friday 12:00 KST == Friday 03:00 UTC. The script gates to every other week.
-    - cron: "0 3 * * 5"
+  # Discord is fallback-only. The scheduled production reminder is KakaoTalk.
   workflow_dispatch:
     inputs:
       force:
