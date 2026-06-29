@@ -1,0 +1,1 @@
+Use the `research_weekly` skill. Ask for member name and presentation file/folder if missing, extract evidence, summarize in Korean 1-2 paragraphs, and append to `reports/research_weekly.md` in `ShinyJay2/opt_ai_skills`.

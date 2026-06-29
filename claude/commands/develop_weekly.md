@@ -1,0 +1,1 @@
+Use the `develop_weekly` skill. Ask for member name if missing, collect recent Git commits from the current repo or requested repo, summarize in Korean 1-2 paragraphs, and append to `reports/develop_weekly.md` in `ShinyJay2/opt_ai_skills`.

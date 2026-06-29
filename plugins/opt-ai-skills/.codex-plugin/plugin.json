@@ -1,0 +1,18 @@
+{
+  "name": "opt-ai-skills",
+  "version": "0.1.0",
+  "description": "OPT-AI academic society reporting skills for Codex and Claude Code.",
+  "author": {
+    "name": "ShinyJay2"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "OPT-AI Skills",
+    "shortDescription": "Biweekly research/development reporting skills and reminder automation.",
+    "longDescription": "OPT-AI Skills provides research_weekly and develop_weekly workflows that summarize presentation materials or Git commits and append them to continuously maintained report documents in this repository.",
+    "developerName": "ShinyJay2",
+    "category": "Productivity",
+    "capabilities": ["Reporting", "Academic workflow", "Git evidence", "Discord reminder"],
+    "defaultPrompt": "Use $research_weekly or $develop_weekly to append an OPT-AI biweekly report."
+  }
+}

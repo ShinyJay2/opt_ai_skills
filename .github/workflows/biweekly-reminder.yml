@@ -1,0 +1,41 @@
+name: Biweekly OPT-AI report reminder
+
+on:
+  schedule:
+    # Monday 09:00 KST == Monday 00:00 UTC. The script gates to every other week.
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Send even if this is not the biweekly anchor week"
+        required: false
+        default: "false"
+      dry_run:
+        description: "Print the reminder without sending to Discord"
+        required: false
+        default: "true"
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Send reminder
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: "1483389681239588864"
+          REMINDER_ANCHOR_DATE: "2026-07-06"
+        run: |
+          FORCE=""
+          DRY_RUN=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.force }}" = "true" ]; then
+            FORCE="--force"
+          fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN="--dry-run"
+          fi
+          python scripts/reminder_bot.py $FORCE $DRY_RUN

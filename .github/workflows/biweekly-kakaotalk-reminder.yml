@@ -1,0 +1,44 @@
+name: Biweekly OPT-AI KakaoTalk reminder
+
+on:
+  schedule:
+    # Monday 09:00 KST == Monday 00:00 UTC. The script gates to every other week.
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Send even if this is not the biweekly anchor week"
+        required: false
+        default: "false"
+      dry_run:
+        description: "Run kmsg with --dry-run instead of sending"
+        required: false
+        default: "true"
+
+jobs:
+  remind-kakaotalk:
+    # Requires a logged-in Mac with KakaoTalk.app, kmsg, Accessibility permission,
+    # and runner labels: self-hosted, macOS, kakaotalk.
+    runs-on: [self-hosted, macOS, kakaotalk]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check kmsg
+        run: |
+          which kmsg
+          kmsg status
+      - name: Send KakaoTalk reminder
+        env:
+          REMINDER_TRANSPORT: kakao-kmsg
+          KAKAOTALK_CHAT_ID: ${{ vars.KAKAOTALK_CHAT_ID }}
+          KAKAOTALK_CHAT_NAME: ${{ vars.KAKAOTALK_CHAT_NAME }}
+          REMINDER_ANCHOR_DATE: "2026-07-06"
+        run: |
+          FORCE=""
+          DRY_RUN=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.force }}" = "true" ]; then
+            FORCE="--force"
+          fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN="--dry-run"
+          fi
+          python3 scripts/reminder_bot.py --transport kakao-kmsg $FORCE $DRY_RUN

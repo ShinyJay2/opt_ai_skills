@@ -1,0 +1,20 @@
+{
+  "name": "opt-ai-marketplace",
+  "interface": {
+    "displayName": "OPT-AI Skills Marketplace"
+  },
+  "plugins": [
+    {
+      "name": "opt-ai-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/opt-ai-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
