@@ -23,25 +23,37 @@ OPT-AI 학회 보고를 쉽게 하기 위한 스킬 모음입니다.
 
 ### 2. 스킬 설치
 
-Codex를 쓰면 터미널에 아래 한 줄을 복사해서 실행하세요.
+본인이 쓰는 도구에 맞게 하나만 실행하세요.
+
+#### Codex 설치 방법
+
+Codex를 쓰는 사람은 터미널에 아래 한 줄을 복사해서 실행하세요.
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" codex
 ```
 
-Claude Code를 쓰면 마지막만 `claude`로 바꿉니다.
+끝나면 **Codex를 재시작**하세요.
+
+#### Claude Code 설치 방법
+
+Claude Code를 쓰는 사람은 터미널에 아래 한 줄을 복사해서 실행하세요.
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" claude
 ```
 
-둘 다 쓰면:
+끝나면 **Claude Code를 재시작**하세요.
+
+#### 둘 다 쓰는 경우
+
+Codex와 Claude Code를 둘 다 쓰면 아래를 실행하세요.
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" both
 ```
 
-설치가 끝나면 **Codex / Claude Code를 재시작**하세요.
+끝나면 **Codex와 Claude Code를 모두 재시작**하세요.
 
 ### 3. 보고하기
 
