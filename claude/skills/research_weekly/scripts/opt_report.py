@@ -223,42 +223,16 @@ def resolve_member_name(
     return member
 
 
-def markdown_fence_for(text: str) -> str:
-    runs = [len(match.group(0)) for match in re.finditer(r"`+", text)]
-    return "`" * max(3, (max(runs) + 1) if runs else 3)
-
-
-def markdown_table_cell(text: str) -> str:
-    return text.replace("\n", "<br>").replace("|", "\\|").strip()
-
 
 def build_report_entry(track: str, member: str, summary: str, evidence: str, source: str, report_date: str) -> str:
-    evidence_snapshot = evidence.strip()[:4000]
-    fence = markdown_fence_for(evidence_snapshot)
     track_label = "학술트랙" if track == "research" else "개발트랙"
     summary_text = summary.strip()
     return "\n".join([
         "---",
         "",
-        f"## {report_date} · {member}",
-        "",
-        "| 항목 | 내용 |",
-        "|---|---|",
-        f"| 트랙 | {track_label} |",
-        f"| 근거 | {markdown_table_cell(source)} |",
-        "",
-        "### 📝 보고 요약",
+        f"## {report_date} · {member} · {track_label}",
         "",
         summary_text,
-        "",
-        "<details>",
-        "<summary>근거 스냅샷 보기</summary>",
-        "",
-        f"{fence}text",
-        evidence_snapshot,
-        fence,
-        "",
-        "</details>",
         "",
     ])
 
@@ -271,10 +245,9 @@ def initial_report_text(track: str) -> str:
         f"이 문서는 `{skill}` 스킬 실행 결과가 날짜·학회원 이름과 함께 누적 append 되는 중앙 보고서입니다.\n\n"
         "## 보는 방법\n\n"
         "각 보고는 아래 형식으로 누적됩니다.\n\n"
-        "- 날짜와 이름이 제목으로 표시됩니다.\n"
-        "- 표에서 트랙과 근거 파일/레포를 확인할 수 있습니다.\n"
-        "- `보고 요약`에는 1~2문단 핵심 내용이 들어갑니다.\n"
-        "- 자세한 원본 근거는 `근거 스냅샷 보기`를 펼치면 확인할 수 있습니다.\n\n"
+        "- 각 항목은 `---` 구분선으로 나뉩니다.\n"
+        "- 제목에는 날짜, 이름, 트랙이 표시됩니다.\n"
+        "- 본문에는 1~2문단 보고 요약만 들어갑니다.\n\n"
         "## 누적 보고\n\n"
         "아직 등록된 보고가 없습니다.\n"
     )
