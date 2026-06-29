@@ -9,9 +9,11 @@ case "$TARGET" in
     echo "Installed OPT-AI skills to ${CODEX_HOME:-$HOME/.codex}/skills"
     ;;
   claude)
-    mkdir -p "$HOME/.claude/skills"
+    mkdir -p "$HOME/.claude/skills" "$HOME/.claude/commands"
     cp -R "$ROOT/claude/skills/"* "$HOME/.claude/skills/"
+    cp -R "$ROOT/claude/commands/"* "$HOME/.claude/commands/"
     echo "Installed OPT-AI skills to $HOME/.claude/skills"
+    echo "Installed OPT-AI Claude commands to $HOME/.claude/commands"
     ;;
   both)
     "$0" codex

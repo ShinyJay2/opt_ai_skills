@@ -1,305 +1,285 @@
 # OPT-AI Codex / Claude Skills
 
-OPT-AI 학회에서 사용할 Codex / Claude Code 스킬 마켓플레이스입니다. 학술트랙 발표자료 기반 격주 보고, 개발트랙 Git commit 기반 격주 보고, Discord 격주 리마인더 자동화를 제공합니다.
+OPT-AI 학회 보고를 쉽게 하기 위한 스킬 모음입니다.
 
-현재 버전: **v0.1.0**
+- **학술트랙**: PDF/PPT/PPTX 발표자료를 읽고 2주 공부 내용을 요약합니다.
+- **개발트랙**: 본인 개발 레포의 최근 2주 commit을 읽고 개발 내용을 요약합니다.
+- 결과는 이 레포의 누적 문서에 자동으로 추가됩니다.
+- 리마인더는 **2주마다 금요일 12:00 KST**에 카카오톡 단톡방으로 올라가도록 운영합니다.
 
-## 개요
+현재 버전: **v0.1.1**
 
-이 레포는 Codex CLI의 plugin marketplace 형식과 Claude Code에서 복사해 사용할 수 있는 `SKILL.md` 형식을 함께 제공합니다.
+---
+
+## 학회원 Quickstart
+
+처음 쓰는 사람은 아래만 따라 하면 됩니다.
+
+### 1. GitHub 초대 수락
+
+운영자가 `ShinyJay2/opt_ai_skills` 레포 초대를 보내면 먼저 수락하세요.
+
+> 이걸 해야 보고서가 GitHub 문서에 올라갑니다.
+
+### 2. 스킬 설치
+
+Codex를 쓰면 터미널에 아래 한 줄을 복사해서 실행하세요.
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" codex
+```
+
+Claude Code를 쓰면 마지막만 `claude`로 바꿉니다.
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" claude
+```
+
+둘 다 쓰면:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" both
+```
+
+설치가 끝나면 **Codex / Claude Code를 재시작**하세요.
+
+### 3. 보고하기
+
+#### 학술트랙
+
+발표자료가 있는 폴더를 VS Code로 열고 실행합니다.
+
+```text
+$research_weekly
+```
+
+Claude Code에서는 `/research_weekly` 또는 `research_weekly`로 실행하면 됩니다.
+
+또는 자료 위치와 이름을 같이 적어도 됩니다.
+
+```text
+$research_weekly 발표자료는 ./presentation 폴더야. 이름은 홍길동.
+```
+
+스킬이 하는 일:
+
+1. 이름을 확인합니다.
+2. PDF/PPT/PPTX 내용을 읽습니다.
+3. 1~2문단으로 공부 내용을 요약합니다.
+4. `reports/research_weekly.md`에 추가합니다.
+
+#### 개발트랙
+
+본인 개발 레포를 VS Code로 열고 실행합니다.
+
+```text
+$develop_weekly
+```
+
+Claude Code에서는 `/develop_weekly` 또는 `develop_weekly`로 실행하면 됩니다.
+
+또는 이름을 같이 적어도 됩니다.
+
+```text
+$develop_weekly 이름은 김개발.
+```
+
+스킬이 하는 일:
+
+1. 이름을 확인합니다.
+2. 현재 레포의 최근 14일 commit을 읽습니다.
+3. 1~2문단으로 개발 내용을 요약합니다.
+4. `reports/develop_weekly.md`에 추가합니다.
+
+---
+
+## 이름은 어떻게 입력하나요?
+
+이름을 프롬프트에 적으면 그대로 사용합니다.
+
+```text
+$develop_weekly 이름은 김개발.
+```
+
+이름을 안 적으면 스킬이 먼저 물어봅니다.
+
+한 번 저장해두고 싶으면:
+
+```bash
+python3 ~/.codex/skills/develop_weekly/scripts/opt_report.py identify-member --remember
+```
+
+저장된 이름은 다음 실행부터 자동으로 사용됩니다.
+
+---
+
+## GitHub 로그인이 안 되어 있으면
+
+보고서가 내 컴퓨터에서는 만들어졌는데 GitHub에 안 올라갈 수 있습니다.
+
+그럴 때는 아래 중 하나만 하면 됩니다.
+
+### 쉬운 방법: VS Code에서 GitHub 로그인
+
+VS Code 왼쪽 아래 계정 아이콘에서 GitHub에 로그인하세요.
+
+### 터미널 방법
+
+GitHub CLI가 있으면:
+
+```bash
+gh auth login
+```
+
+잘 모르겠으면 운영자에게 “보고서 push가 실패했다”고 말하면 됩니다.
+
+---
+
+## 업데이트 방법
+
+스킬이 업데이트되면 아래 명령을 다시 실행하면 됩니다.
+
+Codex:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" codex
+```
+
+Claude Code:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" claude
+```
+
+---
+
+## 리마인더
+
+운영 Mac에서 자동으로 카카오톡 단톡방에 리마인더를 보냅니다.
+
+- 시간: **2주마다 금요일 12:00 KST**
+- 기준일: **2026-07-03**
+- 방식: GitHub Actions → self-hosted macOS runner → KakaoTalk `kmsg`
+- 메시지는 운영 Mac에 로그인된 카카오톡 프로필로 전송됩니다.
+
+학회원은 따로 설정할 것이 없습니다.
+
+Discord 리마인더도 fallback으로 남겨두었습니다.
+
+---
+
+## 보고서 위치
+
+| 문서 | 내용 |
+|---|---|
+| `reports/research_weekly.md` | 학술트랙 보고 누적 문서 |
+| `reports/develop_weekly.md` | 개발트랙 보고 누적 문서 |
+
+---
+
+## 발표자료 팁
+
+학술트랙은 PDF 또는 PPTX가 가장 잘 됩니다.
+
+PDF 내용이 잘 안 읽히면 아래를 한 번 설치하세요.
+
+```bash
+brew install poppler
+```
+
+구버전 `.ppt`는 잘 안 읽힐 수 있습니다. 가능하면 `.pptx` 또는 `.pdf`로 저장해서 사용하세요.
+
+---
+
+## 관리자 / 개발자용
+
+### 레포 구조
 
 ```text
 .agents/plugins/marketplace.json
 plugins/opt-ai-skills/.codex-plugin/plugin.json
 plugins/opt-ai-skills/skills/
 claude/skills/
+claude/commands/
 reports/
-.github/workflows/biweekly-reminder.yml
+scripts/bootstrap.sh
+scripts/install.sh
+scripts/reminder_bot.py
 .github/workflows/biweekly-kakaotalk-reminder.yml
+.github/workflows/biweekly-reminder.yml
 ```
 
-Codex / Claude에서 사용하는 핵심 스킬은 아래 2개입니다.
+### 수동 설치
 
-```text
-$research_weekly  → reports/research_weekly.md append → commit/push
-$develop_weekly   → reports/develop_weekly.md append  → commit/push
-
-GitHub Actions biweekly reminder → Discord channel reminder
+```bash
+git clone https://github.com/ShinyJay2/opt_ai_skills.git ~/.opt-ai-skills/repo
+~/.opt-ai-skills/repo/scripts/install.sh codex
 ```
 
-| 스킬 | 목적 |
-|---|---|
-| `$research_weekly` | PDF/PPT/PPTX 발표자료를 읽고 학술트랙 2주 공부 내용을 1~2문단으로 요약해 중앙 보고서에 append |
-| `$develop_weekly` | 최근 2주 Git commit 내역을 읽고 개발트랙 작업 내용을 1~2문단으로 요약해 중앙 보고서에 append |
+Claude Code:
 
-보고서는 계속 업데이트되는 누적 문서입니다.
+```bash
+~/.opt-ai-skills/repo/scripts/install.sh claude
+```
 
-| 문서 | 설명 |
-|---|---|
-| `reports/research_weekly.md` | 학술트랙 발표자료 기반 격주 보고 누적 문서 |
-| `reports/develop_weekly.md` | 개발트랙 Git commit 기반 격주 보고 누적 문서 |
+Claude 설치는 `~/.claude/skills`와 `~/.claude/commands`를 함께 업데이트합니다.
 
-## 설치 방법
+### Codex marketplace 설치
 
-### 방법 1. Codex Marketplace 등록
-
-Codex CLI가 plugin marketplace를 지원하는 경우 아래 명령을 사용합니다.
+Codex CLI가 plugin marketplace를 지원하면 아래도 가능합니다.
 
 ```bash
 codex plugin marketplace add ShinyJay2/opt_ai_skills
 ```
 
-설치 후 Codex를 재시작합니다.
+지원하지 않으면 위 Quickstart 설치를 사용하세요.
 
-Codex 버전 확인:
-
-```bash
-codex --version
-codex plugin marketplace --help
-```
-
-`codex plugin marketplace` 명령이 없으면 아래 수동 설치 방법을 사용합니다.
-
-### 방법 2. Codex 수동 설치
+### 테스트
 
 ```bash
-# 1. 레포 클론
-git clone https://github.com/ShinyJay2/opt_ai_skills.git
-cd opt_ai_skills
-
-# 2. Codex 스킬 디렉토리에 복사
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R plugins/opt-ai-skills/skills/* "${CODEX_HOME:-$HOME/.codex}/skills/"
-# 또는 scripts/install.sh codex
-
-# 3. Codex 재시작
+python3 scripts/test_opt_ai_skills.py
+python3 -m py_compile \
+  plugins/opt-ai-skills/skills/research_weekly/scripts/opt_report.py \
+  plugins/opt-ai-skills/skills/develop_weekly/scripts/opt_report.py \
+  scripts/reminder_bot.py \
+  scripts/test_opt_ai_skills.py
 ```
 
-이미 설치된 스킬을 최신화하려면:
+### 관련 문서
 
-```bash
-cd opt_ai_skills
-git pull
-cp -R plugins/opt-ai-skills/skills/* "${CODEX_HOME:-$HOME/.codex}/skills/"
-```
+- `docs/report-workflow.md`: 보고 흐름
+- `docs/reminder-bot.md`: Discord 리마인더 fallback
+- `docs/kakaotalk-self-hosted-runner.md`: 카카오톡 runner 설정
+- `docs/kakaotalk-options.md`: 카카오톡 연동 선택지
 
-### 방법 3. Claude Code 수동 설치
+---
 
-Claude Code에서 `SKILL.md` 기반 스킬을 쓰는 환경이라면 아래처럼 복사합니다.
+## 자주 묻는 질문
 
-```bash
-git clone https://github.com/ShinyJay2/opt_ai_skills.git
-cd opt_ai_skills
-mkdir -p "$HOME/.claude/skills"
-cp -R claude/skills/* "$HOME/.claude/skills/"
-# 또는 scripts/install.sh claude
-```
+### `$research_weekly`나 `$develop_weekly`가 안 보여요
 
-Slash command 방식이 더 익숙하면 `claude/commands/*.md`를 Claude Code 명령 디렉토리로 복사해 사용할 수 있습니다.
+1. Codex / Claude Code를 재시작하세요.
+2. 그래도 안 되면 Quickstart 설치 명령을 다시 실행하세요.
 
-## 사전 준비
+### 보고서 push가 실패해요
 
-### 중앙 레포 write 권한
+대부분은 GitHub 권한 또는 로그인 문제입니다.
 
-각 학회원이 보고서를 자동 append/push하려면 `ShinyJay2/opt_ai_skills` 레포에 push 권한이 있거나, fork/PR 방식 운영 규칙이 필요합니다. VS Code에서 사용하는 GitHub 계정/SSH key/credential helper가 이 레포에 push 가능한 상태여야 합니다.
+1. 운영자 초대를 수락했는지 확인하세요.
+2. VS Code 또는 `gh auth login`으로 GitHub에 로그인하세요.
+3. 계속 안 되면 운영자에게 말하세요.
 
-권장 로컬 설정:
+### 개발트랙은 어떤 commit을 보나요?
 
-```bash
-git clone https://github.com/ShinyJay2/opt_ai_skills.git ~/workspace/opt_ai_skills
-export OPT_AI_SKILLS_REPO=~/workspace/opt_ai_skills
-```
+기본은 **현재 레포의 최근 14일 commit 전체**입니다.
 
-### 발표자료 추출 도구
+학회원 각자가 자기 레포에서 실행하는 것을 기준으로 만들었습니다.
 
-`$research_weekly`는 Python 표준 라이브러리로 PPTX를 읽고, PDF는 `pdftotext`가 있으면 우선 사용합니다.
+### 학술트랙 자료를 못 읽어요
 
-```bash
-# macOS
-brew install poppler
+PDF/PPTX로 다시 저장해서 실행하세요. PDF는 `brew install poppler`를 설치하면 더 잘 읽습니다.
 
-# 선택: Python PDF fallback
-python3 -m pip install pypdf
-```
-
-PPT는 구버전 binary 형식이라 추출 품질이 낮을 수 있습니다. 가능하면 PPTX 또는 PDF로 export해서 실행합니다.
-
-### Discord 리마인더
-
-GitHub repository secret에 아래 중 하나를 등록합니다.
-
-- `DISCORD_WEBHOOK_URL` 권장
-- 또는 `DISCORD_BOT_TOKEN`
-
-대상 채널 기본값:
-
-```text
-https://discord.com/channels/1483124596688293899/1483389681239588864
-```
-
-## 스킬 상세
-
-### `$research_weekly`
-
-학술트랙 학회원이 2주마다 만든 발표자료를 읽어 공부 내용을 보고합니다. PDF/PPTX/PPT/Markdown/TXT가 담긴 폴더 또는 파일을 입력하면, 자료 내용을 근거로 1~2문단 한국어 요약을 만들고 `reports/research_weekly.md`에 날짜·이름·근거와 함께 append합니다.
-
-사용 예시:
-
-```text
-$research_weekly 발표자료는 ./presentation 폴더야. 이름은 홍길동.
-$research_weekly /path/to/paper-study.pdf 로 학술트랙 보고 작성해줘
-```
-
-내부 흐름:
-
-1. 학회원 이름 확인: 프롬프트에 이름이 없으면 CLI 입력/선택 또는 대화 질문으로 확인
-2. 발표자료 파일/폴더 확인
-3. 자료 텍스트 추출
-4. Codex/Claude가 1~2문단 보고 요약 작성
-5. 중앙 레포 보고서 append
-6. append commit 생성 및 push
-
-주의:
-
-- 이름이 없으면 `identify-member --remember`로 로컬 저장 이름을 쓰고, 없으면 이름 입력/선택을 먼저 띄웁니다.
-- 자료 추출이 부족하면 PPTX/PDF 변환을 안내합니다.
-- 근거 없이 학습 내용을 상상해서 쓰지 않습니다.
-
-
-공통 이름 확인 CLI:
-
-```bash
-python3 ${CODEX_HOME:-$HOME/.codex}/skills/develop_weekly/scripts/opt_report.py identify-member --remember
-python3 ${CODEX_HOME:-$HOME/.codex}/skills/develop_weekly/scripts/opt_report.py identify-member --members-file config/members.txt --remember
-```
-
-- `OPT_AI_MEMBER_NAME` 환경변수가 있으면 우선 사용합니다.
-- `~/.config/opt-ai-skills/member.json`에 저장된 이름이 있으면 다음 실행부터 재사용합니다.
-- `--members-file`은 한 줄에 한 명씩 적은 명단 파일을 번호 선택지로 보여줍니다.
-
-### `$develop_weekly`
-
-개발트랙 학회원의 최근 2주 commit 내역을 읽어 개발 내용을 보고합니다. 현재 Git 레포 또는 지정한 레포에서 commit log를 수집하고, 구현/수정/리팩터링/검증 작업을 1~2문단으로 묶어 `reports/develop_weekly.md`에 append합니다.
-
-사용 예시:
-
-```text
-$develop_weekly 이름은 김개발. 현재 레포 기준 최근 2주 보고 작성해줘
-$develop_weekly --since 2026-06-01 --author "dev@example.com"
-```
-
-내부 흐름:
-
-1. 학회원 이름 확인: 프롬프트에 이름이 없으면 CLI 입력/선택 또는 대화 질문으로 확인
-2. Git 레포/기간/author 확인
-3. commit log 수집
-4. Codex/Claude가 1~2문단 보고 요약 작성
-5. 중앙 레포 보고서 append
-6. append commit 생성 및 push
-
-주의:
-
-- commit이 없으면 보고서를 append하지 않고 기간/author 확인을 요청합니다.
-- raw commit 제목 나열 대신 개발 흐름으로 요약합니다.
-- 여러 레포를 작업했다면 레포별 evidence를 모아 한 보고로 통합할 수 있습니다.
-
-## 리마인더 봇
-
-격주 금요일 12:00 KST 기준으로 GitHub Actions가 실행되고, `scripts/reminder_bot.py`가 격주 여부를 검사한 뒤 Discord에 보고 요청 메시지를 보냅니다.
-
-```bash
-# 로컬 테스트
-DISCORD_WEBHOOK_URL='https://discord.com/api/webhooks/...' python scripts/reminder_bot.py --dry-run --force
-```
-
-위 명령은 dry-run입니다. 실제 Discord에 보내려면 의도적으로 `--dry-run`을 제거합니다.
-
-카카오톡은 공식 단톡방 incoming webhook이 없어 GitHub-hosted Actions에서 바로 쓰기 어렵습니다. 다만 OAuth 기반 Kakao MCP, macOS 카카오톡 자동화 MCP, Kakao Business 경로가 있으므로 `docs/kakaotalk-options.md`에 선택지를 정리했습니다. 현재 기본값은 Discord이고, 카카오톡은 self-hosted macOS runner + `kmsg` 방식도 함께 제공합니다. 자세한 구축 절차는 `docs/kakaotalk-self-hosted-runner.md`를 참고하세요. 자세한 내용은 `docs/reminder-bot.md`를 참고하세요.
-
-## 공유 및 업데이트 절차
-
-레포 변경 후 팀에 공유하려면:
-
-```bash
-git status
-git add .
-git commit -m "Update OPT-AI skills"
-git push origin main
-```
-
-Teammate는 marketplace 등록을 사용한 경우:
-
-```bash
-codex plugin marketplace upgrade
-```
-
-수동 설치를 사용한 경우:
-
-```bash
-cd opt_ai_skills
-git pull
-cp -R plugins/opt-ai-skills/skills/* "${CODEX_HOME:-$HOME/.codex}/skills/"
-```
-
-Claude Code 수동 설치를 사용한 경우:
-
-```bash
-cd opt_ai_skills
-git pull
-cp -R claude/skills/* "$HOME/.claude/skills/"
-# 또는 scripts/install.sh claude
-```
-
-업데이트 후 Codex 또는 Claude Code를 재시작합니다.
-
-## 문제 해결
-
-### `codex plugin marketplace` 명령이 없음
-
-Codex CLI가 오래된 버전일 수 있습니다.
-
-```bash
-codex update
-codex plugin marketplace --help
-```
-
-업데이트가 어렵다면 수동 설치 방법을 사용합니다.
-
-### 스킬이 Codex에 나타나지 않음
-
-1. Codex를 재시작합니다.
-2. `~/.codex/skills`에 스킬 폴더가 있는지 확인합니다.
-3. `SKILL.md` frontmatter의 `name`이 올바른지 확인합니다.
-
-```bash
-find "${CODEX_HOME:-$HOME/.codex}/skills" -maxdepth 2 -name SKILL.md
-```
-
-### 중앙 보고서 push 실패
-
-- `OPT_AI_SKILLS_REPO`가 올바른 clone을 가리키는지 확인합니다.
-- GitHub 계정에 `ShinyJay2/opt_ai_skills` write 권한이 있는지 확인합니다.
-- 권한이 없다면 fork 후 PR 방식으로 운영합니다.
-
-### `$research_weekly`에서 PDF 내용이 비어 있음
-
-```bash
-brew install poppler
-python3 -m pip install pypdf
-```
-
-그래도 부족하면 발표자료를 PPTX 또는 텍스트 포함 PDF로 다시 export합니다.
-
-### Discord 리마인더가 오지 않음
-
-1. GitHub Actions가 enabled인지 확인합니다.
-2. `DISCORD_WEBHOOK_URL` secret이 등록되어 있는지 확인합니다.
-3. Actions 탭에서 `Biweekly OPT-AI report reminder` workflow를 수동 실행합니다.
-4. `REMINDER_ANCHOR_DATE` 기준 격주 gate에 걸리지 않았는지 확인합니다.
-
-### Secret 보호
-
-이 레포에는 Discord webhook, bot token, OAuth client secret을 포함하지 않습니다. `.env`, `client_secret.json`, `*.pem`, `*.key`는 commit하지 않습니다.
+---
 
 ## 라이선스
 
