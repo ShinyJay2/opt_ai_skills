@@ -80,7 +80,7 @@ def test_identify_member_explicit_and_missing_noninteractive():
 
 def test_reminder_dry_run():
     proc = run(["python3", str(REMINDER), "--dry-run", "--force"])
-    assert "OPT-AI 격주 보고 리마인더" in proc.stdout
+    assert "리마인더: 격주 보고 작성해주세요:)" in proc.stdout
 
 
 def test_kakao_kmsg_dry_run_command():

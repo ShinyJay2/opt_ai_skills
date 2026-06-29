@@ -67,12 +67,7 @@ def send_kakao_kmsg(message: str, dry_run: bool = False) -> str:
 
 
 def default_message() -> str:
-    return os.environ.get("REMINDER_MESSAGE") or (
-        "OPT-AI 격주 보고 리마인더입니다.\n"
-        "학술트랙: 발표자료 PDF/PPT 폴더에서 `$research_weekly` 실행 후 보고서를 append 해주세요.\n"
-        "개발트랙: 작업 레포에서 `$develop_weekly` 실행 후 최근 2주 커밋 기반 보고서를 append 해주세요.\n"
-        "중앙 레포: https://github.com/ShinyJay2/opt_ai_skills"
-    )
+    return os.environ.get("REMINDER_MESSAGE") or "리마인더: 격주 보고 작성해주세요:)"
 
 
 def main() -> int:
