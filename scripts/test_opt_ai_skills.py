@@ -40,7 +40,8 @@ def test_append_format_and_fence():
         )
         text = out.read_text(encoding="utf-8")
         assert "\n## 2026-06-29 · 테스터\n" in text
-        assert "\n### 보고 요약\n\n첫 문단입니다.\n\n둘째 문단입니다." in text
+        assert "\n### 📝 보고 요약\n\n첫 문단입니다.\n\n둘째 문단입니다." in text
+        assert "<summary>근거 스냅샷 보기</summary>" in text
         assert "````text" in text
         assert "\n````\n" in text
 
