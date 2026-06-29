@@ -152,7 +152,7 @@ $research_weekly /path/to/paper-study.pdf 로 학술트랙 보고 작성해줘
 
 내부 흐름:
 
-1. 학회원 이름 확인
+1. 학회원 이름 확인: 프롬프트에 이름이 없으면 CLI 입력/선택 또는 대화 질문으로 확인
 2. 발표자료 파일/폴더 확인
 3. 자료 텍스트 추출
 4. Codex/Claude가 1~2문단 보고 요약 작성
@@ -161,9 +161,21 @@ $research_weekly /path/to/paper-study.pdf 로 학술트랙 보고 작성해줘
 
 주의:
 
-- 이름이 없으면 먼저 물어봅니다.
+- 이름이 없으면 `identify-member --remember`로 로컬 저장 이름을 쓰고, 없으면 이름 입력/선택을 먼저 띄웁니다.
 - 자료 추출이 부족하면 PPTX/PDF 변환을 안내합니다.
 - 근거 없이 학습 내용을 상상해서 쓰지 않습니다.
+
+
+공통 이름 확인 CLI:
+
+```bash
+python3 ${CODEX_HOME:-$HOME/.codex}/skills/develop_weekly/scripts/opt_report.py identify-member --remember
+python3 ${CODEX_HOME:-$HOME/.codex}/skills/develop_weekly/scripts/opt_report.py identify-member --members-file config/members.txt --remember
+```
+
+- `OPT_AI_MEMBER_NAME` 환경변수가 있으면 우선 사용합니다.
+- `~/.config/opt-ai-skills/member.json`에 저장된 이름이 있으면 다음 실행부터 재사용합니다.
+- `--members-file`은 한 줄에 한 명씩 적은 명단 파일을 번호 선택지로 보여줍니다.
 
 ### `$develop_weekly`
 
@@ -178,7 +190,7 @@ $develop_weekly --since 2026-06-01 --author "dev@example.com"
 
 내부 흐름:
 
-1. 학회원 이름 확인
+1. 학회원 이름 확인: 프롬프트에 이름이 없으면 CLI 입력/선택 또는 대화 질문으로 확인
 2. Git 레포/기간/author 확인
 3. commit log 수집
 4. Codex/Claude가 1~2문단 보고 요약 작성

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -66,6 +67,18 @@ def test_commit_pathspec_keeps_unrelated_staged_changes():
         assert staged == "notes.txt"
 
 
+
+def test_identify_member_explicit_and_missing_noninteractive():
+    helper = load_helper()
+    assert helper.resolve_member_name(" 테스터 ") == "테스터"
+    with tempfile.TemporaryDirectory() as td:
+        env = os.environ.copy()
+        env.pop("OPT_AI_MEMBER_NAME", None)
+        env["HOME"] = td
+        proc = subprocess.run(["python3", str(HELPER), "identify-member"], text=True, capture_output=True, env=env)
+    assert proc.returncode != 0
+    assert "학회원 이름이 필요합니다" in proc.stderr
+
 def test_reminder_dry_run():
     proc = run(["python3", str(REMINDER), "--dry-run", "--force"])
     assert "OPT-AI 격주 보고 리마인더" in proc.stdout
@@ -121,6 +134,7 @@ def test_biweekly_friday_anchor():
 if __name__ == "__main__":
     test_append_format_and_fence()
     test_commit_pathspec_keeps_unrelated_staged_changes()
+    test_identify_member_explicit_and_missing_noninteractive()
     test_reminder_dry_run()
     test_biweekly_friday_anchor()
     test_kakao_kmsg_dry_run_command()

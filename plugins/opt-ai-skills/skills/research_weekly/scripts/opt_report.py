@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import os
 import re
 import shutil
@@ -21,6 +22,7 @@ from xml.etree import ElementTree as ET
 
 DEFAULT_REPO_URL = "https://github.com/ShinyJay2/opt_ai_skills.git"
 DEFAULT_CACHE_DIR = Path.home() / ".opt-ai-skills" / "repo"
+DEFAULT_MEMBER_CONFIG = Path.home() / ".config" / "opt-ai-skills" / "member.json"
 REPORT_FILES = {
     "research": Path("reports/research_weekly.md"),
     "develop": Path("reports/develop_weekly.md"),
@@ -143,6 +145,84 @@ def collect_commits(repo: Path, since: str, until: str | None, author: str | Non
     return proc.stdout.strip() or "[No commits found for the selected range.]"
 
 
+
+def load_member_config(config_path: Path = DEFAULT_MEMBER_CONFIG) -> str | None:
+    try:
+        data = json.loads(config_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return None
+    except Exception:
+        return None
+    member = data.get("member") if isinstance(data, dict) else None
+    return member.strip() if isinstance(member, str) and member.strip() else None
+
+
+def save_member_config(member: str, config_path: Path = DEFAULT_MEMBER_CONFIG) -> None:
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    config_path.write_text(json.dumps({"member": member}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def load_member_choices(members_file: str | None) -> list[str]:
+    candidates: list[Path] = []
+    if members_file:
+        candidates.append(Path(members_file).expanduser())
+    env_file = os.environ.get("OPT_AI_MEMBERS_FILE")
+    if env_file:
+        candidates.append(Path(env_file).expanduser())
+    for path in candidates:
+        if not path.exists():
+            continue
+        names: list[str] = []
+        for raw in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            names.append(line)
+        if names:
+            return names
+    return []
+
+
+def resolve_member_name(
+    provided: str | None,
+    members_file: str | None = None,
+    remember: bool = False,
+    no_config: bool = False,
+) -> str:
+    member = (provided or os.environ.get("OPT_AI_MEMBER_NAME") or "").strip()
+    if not member and not no_config:
+        member = load_member_config() or ""
+    if not member:
+        choices = load_member_choices(members_file)
+        if not sys.stdin.isatty():
+            raise SystemExit(
+                "학회원 이름이 필요합니다. --member 또는 OPT_AI_MEMBER_NAME을 지정하거나, 대화에서 이름을 확인한 뒤 다시 실행하세요."
+            )
+        if choices:
+            print("학회원 이름을 선택하세요:", file=sys.stderr)
+            for idx, name in enumerate(choices, 1):
+                print(f"  {idx}. {name}", file=sys.stderr)
+            print(f"  {len(choices) + 1}. 직접 입력", file=sys.stderr)
+            answer = input("번호 또는 이름: ").strip()
+            if answer.isdigit():
+                number = int(answer)
+                if 1 <= number <= len(choices):
+                    member = choices[number - 1]
+                elif number == len(choices) + 1:
+                    member = input("학회원 이름: ").strip()
+                else:
+                    raise SystemExit("유효하지 않은 번호입니다.")
+            else:
+                member = answer
+        else:
+            member = input("학회원 이름: ").strip()
+    if not member:
+        raise SystemExit("학회원 이름이 비어 있습니다.")
+    if remember:
+        save_member_config(member)
+    return member
+
+
 def markdown_fence_for(text: str) -> str:
     runs = [len(match.group(0)) for match in re.finditer(r"`+", text)]
     return "`" * max(3, (max(runs) + 1) if runs else 3)
@@ -192,6 +272,11 @@ def default_since(days: int = 14) -> str:
     return (dt.datetime.now() - dt.timedelta(days=days)).strftime("%Y-%m-%d")
 
 
+
+def cmd_identify_member(args: argparse.Namespace) -> None:
+    print(resolve_member_name(args.member, args.members_file, args.remember, args.no_config))
+
+
 def cmd_extract_research(args: argparse.Namespace) -> None:
     print(extract_materials(Path(args.path).expanduser().resolve(), args.max_chars))
 
@@ -217,6 +302,13 @@ def cmd_append(args: argparse.Namespace) -> None:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="OPT-AI biweekly report helper")
     sub = p.add_subparsers(dest="command", required=True)
+
+    m = sub.add_parser("identify-member", help="Resolve or prompt for the reporting member name")
+    m.add_argument("--member", help="Explicit member name; overrides env/config")
+    m.add_argument("--members-file", help="Optional newline-separated member list for numbered selection")
+    m.add_argument("--remember", action="store_true", help="Save selected name to ~/.config/opt-ai-skills/member.json")
+    m.add_argument("--no-config", action="store_true", help="Ignore saved member config")
+    m.set_defaults(func=cmd_identify_member)
 
     r = sub.add_parser("extract-research", help="Extract text evidence from PDF/PPTX/PPT/MD/TXT path")
     r.add_argument("path")

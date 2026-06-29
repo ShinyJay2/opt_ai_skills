@@ -9,7 +9,7 @@ OPT-AI 학술트랙 격주 보고 스킬입니다. 발표자료가 담긴 파일
 
 ## 입력 흐름
 
-1. 학회원 이름을 먼저 확인합니다. 이름이 프롬프트에 없으면 한 번만 물어봅니다.
+1. 학회원 이름을 먼저 확인합니다. 이름이 프롬프트에 없으면 아래 helper로 CLI 입력/선택을 띄우거나, 비대화형 환경에서는 한 번만 물어봅니다.
 2. PDF/PPT/PPTX 파일 또는 발표자료 폴더 경로를 확인합니다. 경로가 없으면 한 번만 물어봅니다.
 3. 중앙 레포 위치는 아래 순서로 사용합니다.
    - `OPT_AI_SKILLS_REPO` 환경변수
@@ -17,6 +17,17 @@ OPT-AI 학술트랙 격주 보고 스킬입니다. 발표자료가 담긴 파일
    - 없으면 `~/.opt-ai-skills/repo`에 `https://github.com/ShinyJay2/opt_ai_skills.git` clone
 
 ## 실행 절차
+
+0. 학회원 이름 확인:
+
+```bash
+SCRIPT="${OPT_AI_REPORT_HELPER:-${CODEX_HOME:-$HOME/.codex}/skills/research_weekly/scripts/opt_report.py}"
+MEMBER="$(python3 "$SCRIPT" identify-member --remember)"
+```
+
+- `OPT_AI_MEMBER_NAME`이 있거나 `~/.config/opt-ai-skills/member.json`에 저장된 이름이 있으면 그대로 사용합니다.
+- `--members-file /path/to/members.txt`를 주면 번호 선택지를 띄웁니다. 파일은 한 줄에 한 명씩 작성합니다.
+- Codex/Claude 비대화형 실행에서 CLI prompt가 열리지 않으면 사용자에게 이름을 한 번만 물은 뒤 `--member "<이름>"`으로 재실행합니다.
 
 1. 자료 텍스트 추출:
 
@@ -38,7 +49,7 @@ python3 "$SCRIPT" extract-research /path/to/materials > "$EVIDENCE_FILE"
 SCRIPT="${OPT_AI_REPORT_HELPER:-$HOME/.claude/skills/research_weekly/scripts/opt_report.py}"
 python3 "$SCRIPT" append \
   --track research \
-  --member "<학회원 이름>" \
+  --member "$MEMBER" \
   --summary "<1~2문단 요약>" \
   --evidence-file "$EVIDENCE_FILE" \
   --source "/path/to/materials" \
