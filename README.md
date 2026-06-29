@@ -23,37 +23,53 @@ OPT-AI 학회 보고를 쉽게 하기 위한 스킬 모음입니다.
 
 ### 2. 스킬 설치
 
-본인이 쓰는 도구에 맞게 하나만 실행하세요.
+터미널을 직접 열 필요 없이, **Codex / Claude Code 채팅창에 아래 문장을 그대로 복사해서 붙여넣어도 됩니다.**
 
-#### Codex 설치 방법
+#### Codex 세션에 붙여넣기
 
-Codex를 쓰는 사람은 터미널에 아래 한 줄을 복사해서 실행하세요.
+Codex를 쓰는 사람은 Codex 채팅창에 아래 내용을 그대로 붙여넣으세요.
 
-```bash
+```text
+OPT-AI Codex 스킬을 설치해줘. 아래 명령을 실행하고, 설치가 끝나면 ~/.codex/skills/research_weekly/SKILL.md 와 ~/.codex/skills/develop_weekly/SKILL.md 가 있는지 확인해줘.
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" codex
 ```
 
 끝나면 **Codex를 재시작**하세요.
 
-#### Claude Code 설치 방법
+#### Claude Code 세션에 붙여넣기
 
-Claude Code를 쓰는 사람은 터미널에 아래 한 줄을 복사해서 실행하세요.
+Claude Code를 쓰는 사람은 Claude Code 채팅창에 아래 내용을 그대로 붙여넣으세요.
 
-```bash
+```text
+OPT-AI Claude Code 스킬을 설치해줘. 아래 명령을 실행하고, 설치가 끝나면 ~/.claude/skills/research_weekly/SKILL.md 와 ~/.claude/skills/develop_weekly/SKILL.md 가 있는지 확인해줘.
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" claude
 ```
 
 끝나면 **Claude Code를 재시작**하세요.
 
-#### 둘 다 쓰는 경우
+#### 직접 터미널에 실행하고 싶은 경우
 
-Codex와 Claude Code를 둘 다 쓰면 아래를 실행하세요.
+Codex:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" codex
+```
+
+Claude Code:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" claude
+```
+
+둘 다 쓰면:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShinyJay2/opt_ai_skills/main/scripts/bootstrap.sh)" both
 ```
 
-끝나면 **Codex와 Claude Code를 모두 재시작**하세요.
+끝나면 사용하는 앱을 재시작하세요.
 
 ### 3. 보고하기
 
