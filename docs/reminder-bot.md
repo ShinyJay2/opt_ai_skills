@@ -15,7 +15,7 @@ https://discord.com/channels/1483124596688293899/1483389681239588864
 1. GitHub repository secrets에 둘 중 하나를 등록합니다.
    - `DISCORD_WEBHOOK_URL` 권장
    - 또는 `DISCORD_BOT_TOKEN`
-2. `.github/workflows/biweekly-reminder.yml`가 매주 월요일 09:00 KST에 실행됩니다.
+2. `.github/workflows/biweekly-reminder.yml`가 매주 금요일 12:00 KST에 실행됩니다.
 3. `scripts/reminder_bot.py`가 `REMINDER_ANCHOR_DATE` 기준 격주인지 검사하고, 해당 주에만 메시지를 보냅니다.
 4. 즉시 테스트하려면 Actions의 `workflow_dispatch`를 실행하거나 로컬에서 실행합니다.
 

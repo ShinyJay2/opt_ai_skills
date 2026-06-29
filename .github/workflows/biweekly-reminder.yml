@@ -2,8 +2,8 @@ name: Biweekly OPT-AI report reminder
 
 on:
   schedule:
-    # Monday 09:00 KST == Monday 00:00 UTC. The script gates to every other week.
-    - cron: "0 0 * * 1"
+    # Friday 12:00 KST == Friday 03:00 UTC. The script gates to every other week.
+    - cron: "0 3 * * 5"
   workflow_dispatch:
     inputs:
       force:
@@ -28,7 +28,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_CHANNEL_ID: "1483389681239588864"
-          REMINDER_ANCHOR_DATE: "2026-07-06"
+          REMINDER_ANCHOR_DATE: "2026-07-03"
         run: |
           FORCE=""
           DRY_RUN=""

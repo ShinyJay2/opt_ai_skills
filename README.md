@@ -193,7 +193,7 @@ $develop_weekly --since 2026-06-01 --author "dev@example.com"
 
 ## 리마인더 봇
 
-격주 월요일 09:00 KST 기준으로 GitHub Actions가 실행되고, `scripts/reminder_bot.py`가 격주 여부를 검사한 뒤 Discord에 보고 요청 메시지를 보냅니다.
+격주 금요일 12:00 KST 기준으로 GitHub Actions가 실행되고, `scripts/reminder_bot.py`가 격주 여부를 검사한 뒤 Discord에 보고 요청 메시지를 보냅니다.
 
 ```bash
 # 로컬 테스트

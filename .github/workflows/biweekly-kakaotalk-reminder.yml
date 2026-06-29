@@ -2,8 +2,8 @@ name: Biweekly OPT-AI KakaoTalk reminder
 
 on:
   schedule:
-    # Monday 09:00 KST == Monday 00:00 UTC. The script gates to every other week.
-    - cron: "0 0 * * 1"
+    # Friday 12:00 KST == Friday 03:00 UTC. The script gates to every other week.
+    - cron: "0 3 * * 5"
   workflow_dispatch:
     inputs:
       force:
@@ -31,7 +31,7 @@ jobs:
           REMINDER_TRANSPORT: kakao-kmsg
           KAKAOTALK_CHAT_ID: ${{ vars.KAKAOTALK_CHAT_ID }}
           KAKAOTALK_CHAT_NAME: ${{ vars.KAKAOTALK_CHAT_NAME }}
-          REMINDER_ANCHOR_DATE: "2026-07-06"
+          REMINDER_ANCHOR_DATE: "2026-07-03"
         run: |
           FORCE=""
           DRY_RUN=""

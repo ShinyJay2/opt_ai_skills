@@ -107,9 +107,21 @@ def test_kakao_kmsg_dry_run_command():
                 os.environ["KAKAOTALK_CHAT_ID"] = old_chat
 
 
+def test_biweekly_friday_anchor():
+    helper_spec = importlib.util.spec_from_file_location("reminder_bot", REMINDER)
+    assert helper_spec and helper_spec.loader
+    reminder = importlib.util.module_from_spec(helper_spec)
+    helper_spec.loader.exec_module(reminder)
+    import datetime as dt
+    assert reminder.is_biweekly_due(dt.date(2026, 7, 3), "2026-07-03") is True
+    assert reminder.is_biweekly_due(dt.date(2026, 7, 10), "2026-07-03") is False
+    assert reminder.is_biweekly_due(dt.date(2026, 7, 17), "2026-07-03") is True
+
+
 if __name__ == "__main__":
     test_append_format_and_fence()
     test_commit_pathspec_keeps_unrelated_staged_changes()
     test_reminder_dry_run()
+    test_biweekly_friday_anchor()
     test_kakao_kmsg_dry_run_command()
     print("behavior tests ok")

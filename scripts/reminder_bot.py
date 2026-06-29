@@ -16,7 +16,7 @@ import sys
 import urllib.request
 
 DEFAULT_CHANNEL_ID = "1483389681239588864"
-DEFAULT_ANCHOR = "2026-07-06"  # Monday KST anchor; adjust in workflow/env if needed.
+DEFAULT_ANCHOR = "2026-07-03"  # Friday KST anchor; adjust in workflow/env if needed.
 
 
 def is_biweekly_due(today: dt.date, anchor: str) -> bool:
